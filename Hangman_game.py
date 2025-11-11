@@ -18,6 +18,8 @@
     or the hangman drawing is finished (8 wrong guesses)."""
 
 from numpy.ma.core import indices
+import getpass
+import os
 
 def get_word():
     print("\nWelcome to the Hangman Game!")
@@ -27,8 +29,11 @@ def get_word():
     while True:
         word = input("Enter secret word...").strip().upper()
         if word.isalpha():
-            return word
+            break
         print("\nPlease enter a valid secret word (letters only).")
+    input("\nHand the keyboard to Player 2 and press Enter…")
+    clear_screen()  # wipe the console so the prompt itself isn’t visible anymore
+    return word
 
 def play(word):
     word_completion = "_" * len(word)
@@ -52,8 +57,9 @@ def play(word):
             tries -= 1
             print("Player 2 - You have ", tries, "more guesses.")
             print(Hangman(tries))
+            print(word_completion)
         else:
-            print("\nGood job!  You have guess a letter in the secret word.")
+            print("\nGood job!  You have guessed a letter in the secret word.")
             guessed_letters.append(guess)
             word_as_list = list(word_completion)
             indices = [i for i, letter in enumerate(word) if letter == guess]
@@ -156,7 +162,9 @@ def main():
         if not play_again():
             break
 
-
+def clear_screen():
+    # Windows -> cls, macOS/Linux -> clear
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == "__main__":
     main()
