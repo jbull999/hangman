@@ -19,16 +19,16 @@
 
 from numpy.ma.core import indices
 
-
-
-
 def get_word():
     print("\nWelcome to the Hangman Game!")
     print("\nLets Play!")
     print("\nThis is a 2 player game, where one player defines a secret word and the other player guesses the secret word.")
     print("\nPlayer 1 - Think of a secret word.")
-    word = input("Enter secret word...").upper()
-    return word.upper()
+    while True:
+        word = input("Enter secret word...").strip().upper()
+        if word.isalpha():
+            return word
+        print("\nPlease enter a valid secret word (letters only).")
 
 def play(word):
     word_completion = "_" * len(word)
@@ -40,6 +40,10 @@ def play(word):
     print("Player 2 - You have ", tries, "more guesses.")
     while not guessed and tries > 0:
         guess = input("\nGuess a letter in the secret word").upper()
+        # validation
+        if len(guess) != 1 or not guess.isalpha():
+            print("Please guess a single letter A–Z.")
+            continue
         if guess in guessed_letters:
             print("\nYou already guessed that letter.")
         elif guess not in word:
@@ -59,7 +63,7 @@ def play(word):
             print(word_completion)
             if "_" not in word_completion:
                 guessed = True
-                print("\nCongratualations!  You guessed it! \nThe secret word was", word_completion)
+                print("\nCongratulations!  You guessed it! \nThe secret word was", word_completion)
 
 
     while tries == 0:
@@ -140,13 +144,19 @@ def Hangman(tries):
 
     return HANGMAN_PICS[::-1][tries]
 
-return play(get_word())
+
+def play_again():
+    return input("Play again? (y/n): ").strip().startswith("y")
+
 
 def main():
+    while True:
+        word = get_word()
+        play(word)
+        if not play_again():
+            break
 
-    def play_again():
-        while input("play again? (y/n): ").upper() == "Y":
-            play(get_word())
+
 
 if __name__ == "__main__":
     main()
