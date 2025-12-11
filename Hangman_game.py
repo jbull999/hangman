@@ -1,4 +1,4 @@
-"""Hangman game -
+"""Hangman game1 -
     The first player chooses a secret word and draws a blank line for each letter
     in the word e.g. if the secret word is "cats", there are 4 blank spots "_ _ _ _".
     Now the other player starts guessing the secret word by naming a single letter.
