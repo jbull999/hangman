@@ -1,0 +1,19 @@
+name: Hangman CI
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened,synchronize]
+
+jobs:
+  hangman:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Install pylint and mypy
+        run: pip install pylint mypy
+      - name: Run pylint
+        run: python3 -m pylint .
+      - name: Run mypy
+        run: python3 -m mypy .
